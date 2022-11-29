@@ -5,7 +5,7 @@ const ErrorEmailPassword = 'Email or password incorrect';
 
 
 const userController = {
-    register: async function ( req, res ){
+    register: async ( req, res ) => {
          
         const selectedUser = await User.findOne({email:req.body.email})
         
@@ -17,7 +17,7 @@ const userController = {
         ({
              name: req.body.name,
              email: req.body.email,
-             password: bcrypt.hashSync(req.body.password) // usando hashSync para criptografia da senha.
+             password: bcrypt.hashSync(req.body.password) // usando bcrypt.hashSync para criptografia da senha.
         })
  
         try {
@@ -30,7 +30,7 @@ const userController = {
 
     },
 
-    login: async function  ( req, res ){
+    login: async ( req, res ) => {
 
         const selectedUser = await User.findOne({email:req.body.email})
         
@@ -41,7 +41,7 @@ const userController = {
          if (!passwordUserMetch) return res.status(400).send(ErrorEmailPassword)
 
 
-         const token = jwt.sign({_id: selectedUser._id}, process.env.TOKEN_SECRET )
+         const token = jwt.sign({_id: selectedUser._id}, process.env.TOKEN_SECRET ) // está pegando o id e usando como token
          
          res.header('authorization-token', token) // passando o token por meio do header da req.
          res.send("User logged")
