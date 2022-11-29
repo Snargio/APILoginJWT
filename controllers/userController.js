@@ -41,7 +41,7 @@ const userController = {
          if (!passwordUserMetch) return res.status(400).send(ErrorEmailPassword)
 
 
-         const token = jwt.sign({_id: selectedUser._id}, process.env.TOKEN_SECRET ) // está pegando o id e usando como token
+         const token = jwt.sign({_id: selectedUser._id, admin: selectedUser.admin }, process.env.TOKEN_SECRET ) // está pegando o id e usando como token
          
          res.header('authorization-token', token) // passando o token por meio do header da req.
          res.send("User logged")
