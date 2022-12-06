@@ -4,9 +4,18 @@ const jwt = require('jsonwebtoken')
 const ErrorEmailPassword = 'Email or password incorrect';
 
 
+const {loguinValidate, registerValidate} = require('./validate')
+
+
 const userController = {
     register: async ( req, res ) => {
          
+
+        const {error} = registerValidate(req.body)
+        if (error){ return res.status(400).send(error)}
+
+   
+
         const selectedUser = await User.findOne({email:req.body.email})
         
         if(selectedUser){
@@ -31,6 +40,11 @@ const userController = {
     },
 
     login: async ( req, res ) => {
+
+
+        const {error} = loguinValidate(req.body)
+        if (error){ return res.status(400).send(error)}
+
 
         const selectedUser = await User.findOne({email:req.body.email})
         
